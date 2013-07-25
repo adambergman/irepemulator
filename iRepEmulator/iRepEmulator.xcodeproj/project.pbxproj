@@ -16,6 +16,8 @@
 		1D0518D317A16FE400335BC8 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D0518D217A16FE400335BC8 /* Default.png */; };
 		1D0518D517A16FE400335BC8 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D0518D417A16FE400335BC8 /* Default@2x.png */; };
 		1D0518D717A16FE400335BC8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D0518D617A16FE400335BC8 /* Default-568h@2x.png */; };
+		1D0518E017A1745300335BC8 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0518DE17A1745300335BC8 /* WebViewController.m */; };
+		1D0518E117A1745300335BC8 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D0518DF17A1745300335BC8 /* WebViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,9 @@
 		1D0518D217A16FE400335BC8 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		1D0518D417A16FE400335BC8 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		1D0518D617A16FE400335BC8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		1D0518DD17A1745300335BC8 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		1D0518DE17A1745300335BC8 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		1D0518DF17A1745300335BC8 /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +85,9 @@
 			children = (
 				1D0518CF17A16FE400335BC8 /* AppDelegate.h */,
 				1D0518D017A16FE400335BC8 /* AppDelegate.m */,
+				1D0518DD17A1745300335BC8 /* WebViewController.h */,
+				1D0518DE17A1745300335BC8 /* WebViewController.m */,
+				1D0518DF17A1745300335BC8 /* WebViewController.xib */,
 				1D0518C717A16FE400335BC8 /* Supporting Files */,
 			);
 			path = iRepEmulator;
@@ -154,6 +162,7 @@
 				1D0518D317A16FE400335BC8 /* Default.png in Resources */,
 				1D0518D517A16FE400335BC8 /* Default@2x.png in Resources */,
 				1D0518D717A16FE400335BC8 /* Default-568h@2x.png in Resources */,
+				1D0518E117A1745300335BC8 /* WebViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,6 +175,7 @@
 			files = (
 				1D0518CD17A16FE400335BC8 /* main.m in Sources */,
 				1D0518D117A16FE400335BC8 /* AppDelegate.m in Sources */,
+				1D0518E017A1745300335BC8 /* WebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
