@@ -18,6 +18,7 @@
 		1D0518D717A16FE400335BC8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D0518D617A16FE400335BC8 /* Default-568h@2x.png */; };
 		1D0518E017A1745300335BC8 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0518DE17A1745300335BC8 /* WebViewController.m */; };
 		1D0518E117A1745300335BC8 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D0518DF17A1745300335BC8 /* WebViewController.xib */; };
+		1D0518E317A18E5700335BC8 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1D0518E217A18E5700335BC8 /* Settings.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		1D0518DD17A1745300335BC8 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		1D0518DE17A1745300335BC8 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		1D0518DF17A1745300335BC8 /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
+		1D0518E217A18E5700335BC8 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = iRepEmulator/Settings.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				1D0518C617A16FE400335BC8 /* iRepEmulator */,
+				1D0518E217A18E5700335BC8 /* Settings.bundle */,
 				1D0518BF17A16FE400335BC8 /* Frameworks */,
 				1D0518BE17A16FE400335BC8 /* Products */,
 			);
@@ -163,6 +166,7 @@
 				1D0518D517A16FE400335BC8 /* Default@2x.png in Resources */,
 				1D0518D717A16FE400335BC8 /* Default-568h@2x.png in Resources */,
 				1D0518E117A1745300335BC8 /* WebViewController.xib in Resources */,
+				1D0518E317A18E5700335BC8 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
