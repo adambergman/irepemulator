@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WebViewController : UIViewController <UIActionSheetDelegate, UITextFieldDelegate>
+@interface WebViewController : UIViewController <UIActionSheetDelegate, UITextFieldDelegate, UIWebViewDelegate>
 
 @property (nonatomic) IBOutlet UIWebView *web;
 @property (nonatomic) IBOutlet UIButton *buttonAction;

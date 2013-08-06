@@ -8,6 +8,7 @@
 
 #import "WebViewController.h"
 #import "ABUtilities.h"
+#import "lib/RegexKitLite.h"
 
 @interface WebViewController ()
 
@@ -27,6 +28,51 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
     }
     return self;
 }
+
+// UIWebViewDelegate Methods
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    // Somewhat of a hack to grab the body HTML from the UIWebView using JavaScript
+    // Apple does not provide a obj-c method to grab the source HTML using the UIWebView
+    // and this avoids a secondary request for each page load.
+    
+    NSString *html = [webView stringByEvaluatingJavaScriptFromString: @"document.body.innerHTML"];
+    
+    // Hacky regular expression to parse for an Apache directory index so that thumbnails and
+    // fake iRep navigation can be created from the directory tree
+    
+    // TODO: Add parsing for IIS directory listings
+    
+    NSRange range;
+    NSString *regExIndex = @"<h1>Index of (.*?)</h1>";
+    range = [html rangeOfString:regExIndex options:NSRegularExpressionSearch];
+    if (range.location != NSNotFound)
+    {
+        // TODO: At this point the user should probably be prompted to ask
+        // whether or not this directory listing should be parsed as an iRep presentaiton
+        
+        NSLog(@"Is Apache Index %@", [html substringWithRange:range]);
+        
+        NSString *regEx = @"href=[\"'](.*?)/[\"']";
+        int count = 0;
+        for(NSString *match in [html componentsMatchedByRegex:regEx])
+        {
+            if(count == 0)
+            {
+                // Skip Parent directory
+                NSLog(@"Skipping parent directory link... %@", match);
+            }else{
+                // Found directory, assume it's a Veeva slide
+                NSLog(@"Found Directory %@", match);
+            }
+            count++;
+        }
+    } else {
+        NSLog(@"Is not apache index.");
+    }
+}
+
 
 - (IBAction)buttonForwardTouched:(id)sender
 {
