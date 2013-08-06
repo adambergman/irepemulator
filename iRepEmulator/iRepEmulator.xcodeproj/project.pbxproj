@@ -21,6 +21,7 @@
 		1D0518E317A18E5700335BC8 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1D0518E217A18E5700335BC8 /* Settings.bundle */; };
 		1D0518E717A194AD00335BC8 /* veeva_controls_bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D0518E517A194AD00335BC8 /* veeva_controls_bottom.png */; };
 		1D0518E817A194AD00335BC8 /* veeva_controls_top.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D0518E617A194AD00335BC8 /* veeva_controls_top.png */; };
+		1D0518EB17A2B44300335BC8 /* ABUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0518EA17A2B44300335BC8 /* ABUtilities.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,8 @@
 		1D0518E217A18E5700335BC8 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = iRepEmulator/Settings.bundle; sourceTree = "<group>"; };
 		1D0518E517A194AD00335BC8 /* veeva_controls_bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = veeva_controls_bottom.png; path = artwork/veeva_controls_bottom.png; sourceTree = "<group>"; };
 		1D0518E617A194AD00335BC8 /* veeva_controls_top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = veeva_controls_top.png; path = artwork/veeva_controls_top.png; sourceTree = "<group>"; };
+		1D0518E917A2B44300335BC8 /* ABUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABUtilities.h; sourceTree = "<group>"; };
+		1D0518EA17A2B44300335BC8 /* ABUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABUtilities.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +93,8 @@
 		1D0518C617A16FE400335BC8 /* iRepEmulator */ = {
 			isa = PBXGroup;
 			children = (
+				1D0518E917A2B44300335BC8 /* ABUtilities.h */,
+				1D0518EA17A2B44300335BC8 /* ABUtilities.m */,
 				1D0518CF17A16FE400335BC8 /* AppDelegate.h */,
 				1D0518D017A16FE400335BC8 /* AppDelegate.m */,
 				1D0518DD17A1745300335BC8 /* WebViewController.h */,
@@ -196,6 +201,7 @@
 				1D0518CD17A16FE400335BC8 /* main.m in Sources */,
 				1D0518D117A16FE400335BC8 /* AppDelegate.m in Sources */,
 				1D0518E017A1745300335BC8 /* WebViewController.m in Sources */,
+				1D0518EB17A2B44300335BC8 /* ABUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

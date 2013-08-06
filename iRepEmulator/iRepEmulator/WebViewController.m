@@ -7,6 +7,7 @@
 //
 
 #import "WebViewController.h"
+#import "ABUtilities.h"
 
 @interface WebViewController ()
 
@@ -31,8 +32,9 @@
     // Do any additional setup after loading the view from its nib.
     
     // Goto the default page
-    // TODO: This should be changed to read a value from a settings bundle
-    [web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://google.com"]]];
+    // TODO: This should happen outside of viewDidLoad
+    NSString *url = [ABUtilities getUserDefaultWithKey:@"server_preference"];
+    [web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
     
 }
 
