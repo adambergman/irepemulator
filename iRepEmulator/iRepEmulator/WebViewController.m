@@ -46,6 +46,10 @@
         case 0:
             [web reload];
             break;
+            
+        case 1:
+            // TODO: stub for modal to change server settings
+            break;
     }
 }
 
