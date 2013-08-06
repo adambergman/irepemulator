@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class iRepPresentation;
+
 @interface WebViewController : UIViewController <UIActionSheetDelegate, UITextFieldDelegate, UIWebViewDelegate>
 
 @property (nonatomic) IBOutlet UIWebView *web;
@@ -19,6 +21,8 @@
 @property (nonatomic) IBOutlet UIButton *buttonServerOkay;
 @property (nonatomic) IBOutlet UIButton *buttonServerCancel;
 @property (nonatomic) IBOutlet UITextField *textServer;
+
+@property (nonatomic) iRepPresentation *irep;
 
 
 - (IBAction)buttonActionTouched:(id)sender;

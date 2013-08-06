@@ -8,7 +8,7 @@
 
 #import "WebViewController.h"
 #import "ABUtilities.h"
-#import "lib/RegexKitLite.h"
+#import "iRepPresentation.h"
 
 @interface WebViewController ()
 
@@ -18,7 +18,7 @@
 
 static NSString *KEY_PREFS_SERVER = @"server_preference";
 
-@synthesize web, buttonAction, buttonBack, buttonForward, buttonServerCancel, buttonServerOkay, buttonTriangle, textServer, modalServerView;
+@synthesize web, buttonAction, buttonBack, buttonForward, buttonServerCancel, buttonServerOkay, buttonTriangle, textServer, modalServerView, irep;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,37 +39,15 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
     
     NSString *html = [webView stringByEvaluatingJavaScriptFromString: @"document.body.innerHTML"];
     
-    // Hacky regular expression to parse for an Apache directory index so that thumbnails and
-    // fake iRep navigation can be created from the directory tree
-    
-    // TODO: Add parsing for IIS directory listings
-    
-    NSRange range;
-    NSString *regExIndex = @"<h1>Index of (.*?)</h1>";
-    range = [html rangeOfString:regExIndex options:NSRegularExpressionSearch];
-    if (range.location != NSNotFound)
+    if([iRepPresentation isDirectoryListing:html])
     {
         // TODO: At this point the user should probably be prompted to ask
         // whether or not this directory listing should be parsed as an iRep presentaiton
         
-        NSLog(@"Is Apache Index %@", [html substringWithRange:range]);
-        
-        NSString *regEx = @"href=[\"'](.*?)/[\"']";
-        int count = 0;
-        for(NSString *match in [html componentsMatchedByRegex:regEx])
+        if((irep = [iRepPresentation iRepPresentationWithDirectoryListing:html]))
         {
-            if(count == 0)
-            {
-                // Skip Parent directory
-                NSLog(@"Skipping parent directory link... %@", match);
-            }else{
-                // Found directory, assume it's a Veeva slide
-                NSLog(@"Found Directory %@", match);
-            }
-            count++;
+            
         }
-    } else {
-        NSLog(@"Is not apache index.");
     }
 }
 
