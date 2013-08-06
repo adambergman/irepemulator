@@ -15,7 +15,9 @@
 
 @implementation WebViewController
 
-@synthesize web, buttonAction;
+static NSString *KEY_PREFS_SERVER = @"server_preference";
+
+@synthesize web, buttonAction, buttonBack, buttonForward, buttonServerCancel, buttonServerOkay, buttonTriangle, textServer, modalServerView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -24,6 +26,16 @@
         // Custom initialization
     }
     return self;
+}
+
+- (IBAction)buttonForwardTouched:(id)sender
+{
+    [web goForward];
+}
+
+- (IBAction)buttonBackTouched:(id)sender
+{
+    [web goBack];
 }
 
 - (IBAction)buttonActionTouched:(id)sender
@@ -39,6 +51,8 @@
     [popupSheet showFromRect:buttonAction.bounds inView:self.view animated:YES];
 }
 
+// UIActionSheetDelegate method
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     switch(buttonIndex)
@@ -48,11 +62,57 @@
             break;
             
         case 1:
-            // TODO: stub for modal to change server settings
+            [self showServerModal];
             break;
     }
 }
 
+// UITextFieldDelegate method, handles Done button on keyboard
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self hideServerModal:TRUE];
+    return TRUE;
+}
+
+- (IBAction)buttonServerOkayTouched:(id)sender
+{
+    [self hideServerModal:TRUE];
+}
+
+- (IBAction)buttonServerCancelTouched:(id)sender
+{
+    [self hideServerModal];
+}
+
+- (void)showServerModal
+{
+    self.textServer.text = [ABUtilities getUserDefaultWithKey:KEY_PREFS_SERVER];
+    [self.textServer becomeFirstResponder];
+    modalServerView.hidden = FALSE;
+}
+
+- (void)hideServerModal:(BOOL)saveValueAndReload
+{
+    if(saveValueAndReload)
+    {
+        [ABUtilities setUserDefaultByKey:KEY_PREFS_SERVER withValue:self.textServer.text];
+        [self navigateToServerPreference];
+    }
+    [self.textServer resignFirstResponder];
+    modalServerView.hidden = TRUE;
+}
+
+- (void)hideServerModal
+{
+    [self hideServerModal:FALSE];
+}
+
+- (void)navigateToServerPreference
+{
+    NSString *url = [ABUtilities getUserDefaultWithKey:KEY_PREFS_SERVER];
+    [web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
+}
 
 - (void)viewDidLoad
 {
@@ -60,10 +120,7 @@
     // Do any additional setup after loading the view from its nib.
     
     // Goto the default page
-    // TODO: This should happen outside of viewDidLoad
-    NSString *url = [ABUtilities getUserDefaultWithKey:@"server_preference"];
-    [web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
-    
+    [self navigateToServerPreference];
 }
 
 - (void)didReceiveMemoryWarning
