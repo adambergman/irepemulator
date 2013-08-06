@@ -8,8 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WebViewController : UIViewController
+@interface WebViewController : UIViewController <UIActionSheetDelegate>
 
 @property (nonatomic) IBOutlet UIWebView *web;
+@property (nonatomic) IBOutlet UIButton *buttonAction;
+@property (nonatomic) IBOutlet UIButton *buttonBack;
+@property (nonatomic) IBOutlet UIButton *buttonForward;
+@property (nonatomic) IBOutlet UIButton *buttonTriangle;
+
+- (IBAction)buttonActionTouched:(id)sender;
 
 @end

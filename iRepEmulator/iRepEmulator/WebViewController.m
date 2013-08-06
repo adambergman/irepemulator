@@ -15,7 +15,7 @@
 
 @implementation WebViewController
 
-@synthesize web;
+@synthesize web, buttonAction;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -25,6 +25,30 @@
     }
     return self;
 }
+
+- (IBAction)buttonActionTouched:(id)sender
+{
+    UIActionSheet *popupSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                            delegate:self
+                                                   cancelButtonTitle:nil
+                                              destructiveButtonTitle:nil
+                                                   otherButtonTitles:@"Refresh Page", @"Server Settings", nil];
+    
+    popupSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+    
+    [popupSheet showFromRect:buttonAction.bounds inView:self.view animated:YES];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch(buttonIndex)
+    {
+        case 0:
+            [web reload];
+            break;
+    }
+}
+
 
 - (void)viewDidLoad
 {
