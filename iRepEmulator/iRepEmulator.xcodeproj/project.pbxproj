@@ -318,6 +318,7 @@
 				1D0518DC17A16FE400335BC8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
