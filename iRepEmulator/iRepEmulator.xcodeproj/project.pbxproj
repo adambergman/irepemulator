@@ -22,6 +22,9 @@
 		1D0518E717A194AD00335BC8 /* veeva_controls_bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D0518E517A194AD00335BC8 /* veeva_controls_bottom.png */; };
 		1D0518E817A194AD00335BC8 /* veeva_controls_top.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D0518E617A194AD00335BC8 /* veeva_controls_top.png */; };
 		1D0518EB17A2B44300335BC8 /* ABUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0518EA17A2B44300335BC8 /* ABUtilities.m */; };
+		1D4EB88017B16A9E000EAB65 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4EB87F17B16A9E000EAB65 /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1D4EB88217B16C1D000EAB65 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D4EB88117B16C1D000EAB65 /* libicucore.dylib */; };
+		1D4EB88617B17AD6000EAB65 /* iRepPresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4EB88517B17AD6000EAB65 /* iRepPresentation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +49,11 @@
 		1D0518E617A194AD00335BC8 /* veeva_controls_top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = veeva_controls_top.png; path = artwork/veeva_controls_top.png; sourceTree = "<group>"; };
 		1D0518E917A2B44300335BC8 /* ABUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABUtilities.h; sourceTree = "<group>"; };
 		1D0518EA17A2B44300335BC8 /* ABUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABUtilities.m; sourceTree = "<group>"; };
+		1D4EB87E17B16A9E000EAB65 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
+		1D4EB87F17B16A9E000EAB65 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
+		1D4EB88117B16C1D000EAB65 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		1D4EB88417B17AD6000EAB65 /* iRepPresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRepPresentation.h; sourceTree = "<group>"; };
+		1D4EB88517B17AD6000EAB65 /* iRepPresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRepPresentation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D4EB88217B16C1D000EAB65 /* libicucore.dylib in Frameworks */,
 				1D0518C117A16FE400335BC8 /* UIKit.framework in Frameworks */,
 				1D0518C317A16FE400335BC8 /* Foundation.framework in Frameworks */,
 				1D0518C517A16FE400335BC8 /* CoreGraphics.framework in Frameworks */,
@@ -83,6 +92,7 @@
 		1D0518BF17A16FE400335BC8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1D4EB88117B16C1D000EAB65 /* libicucore.dylib */,
 				1D0518C017A16FE400335BC8 /* UIKit.framework */,
 				1D0518C217A16FE400335BC8 /* Foundation.framework */,
 				1D0518C417A16FE400335BC8 /* CoreGraphics.framework */,
@@ -93,13 +103,13 @@
 		1D0518C617A16FE400335BC8 /* iRepEmulator */ = {
 			isa = PBXGroup;
 			children = (
-				1D0518E917A2B44300335BC8 /* ABUtilities.h */,
-				1D0518EA17A2B44300335BC8 /* ABUtilities.m */,
+				1D4EB88317B17A91000EAB65 /* util */,
 				1D0518CF17A16FE400335BC8 /* AppDelegate.h */,
 				1D0518D017A16FE400335BC8 /* AppDelegate.m */,
 				1D0518DD17A1745300335BC8 /* WebViewController.h */,
 				1D0518DE17A1745300335BC8 /* WebViewController.m */,
 				1D0518DF17A1745300335BC8 /* WebViewController.xib */,
+				1D4EB87D17B16A9E000EAB65 /* lib */,
 				1D0518E417A193F800335BC8 /* artwork */,
 				1D0518C717A16FE400335BC8 /* Supporting Files */,
 			);
@@ -127,6 +137,26 @@
 				1D0518E617A194AD00335BC8 /* veeva_controls_top.png */,
 			);
 			name = artwork;
+			sourceTree = "<group>";
+		};
+		1D4EB87D17B16A9E000EAB65 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				1D4EB87E17B16A9E000EAB65 /* RegexKitLite.h */,
+				1D4EB87F17B16A9E000EAB65 /* RegexKitLite.m */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		1D4EB88317B17A91000EAB65 /* util */ = {
+			isa = PBXGroup;
+			children = (
+				1D0518E917A2B44300335BC8 /* ABUtilities.h */,
+				1D0518EA17A2B44300335BC8 /* ABUtilities.m */,
+				1D4EB88417B17AD6000EAB65 /* iRepPresentation.h */,
+				1D4EB88517B17AD6000EAB65 /* iRepPresentation.m */,
+			);
+			name = util;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -202,6 +232,8 @@
 				1D0518D117A16FE400335BC8 /* AppDelegate.m in Sources */,
 				1D0518E017A1745300335BC8 /* WebViewController.m in Sources */,
 				1D0518EB17A2B44300335BC8 /* ABUtilities.m in Sources */,
+				1D4EB88017B16A9E000EAB65 /* RegexKitLite.m in Sources */,
+				1D4EB88617B17AD6000EAB65 /* iRepPresentation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
