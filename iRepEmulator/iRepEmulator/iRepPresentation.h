@@ -18,7 +18,7 @@
 //
 
 // Parse HTML of Directory Listing in to slides property
-+ (iRepPresentation *)iRepPresentationWithDirectoryListing:(NSString *)html;
++ (iRepPresentation *)iRepPresentationWithDirectoryListing:(NSString *)html url:(NSURL *)url;
 
 // Find out if given HTML is a directory listing
 + (BOOL)isDirectoryListing:(NSString *)html;
