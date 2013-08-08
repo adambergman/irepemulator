@@ -18,7 +18,7 @@
 
 static NSString *KEY_PREFS_SERVER = @"server_preference";
 
-@synthesize web, buttonAction, buttonBack, buttonForward, buttonServerCancel, buttonServerOkay, buttonTriangle, textServer, viewModal, irep, viewServer, viewSlides, viewSlideScroll, imageTriangle;
+@synthesize web, buttonAction, buttonBack, buttonForward, buttonServerCancel, buttonServerOkay, buttonTriangle, textServer, viewModal, irep, viewServer, viewSlides, viewSlideScroll, imageTriangle, shouldEatGestures;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -53,55 +53,65 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
 {
     if(buttonIndex == 1)
     {
-        // TODO: Display indicator
+        [self buildFilmstrip];
+    }
+}
+
+- (void)buildFilmstrip
+{
+    // TODO: Display indicator
+    
+    // TODO: This method could be separated out so that initializing the "irep" variable
+    // and the parsing happens in another function which will then make the call to build the filmstrip
+    
+    // Somewhat of a hack to grab the body HTML from the UIWebView using JavaScript
+    // Apple does not provide a obj-c method to grab the source HTML using the UIWebView
+    // and this avoids a secondary request for each page load.
+    
+    NSString *html = [web stringByEvaluatingJavaScriptFromString: @"document.body.innerHTML"];
+    
+    if((irep = [iRepPresentation iRepPresentationWithDirectoryListing:html url:[web.request URL]]))
+    {
+        [[viewSlideScroll subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
         
-        // Somewhat of a hack to grab the body HTML from the UIWebView using JavaScript
-        // Apple does not provide a obj-c method to grab the source HTML using the UIWebView
-        // and this avoids a secondary request for each page load.
+        int i = 0;
         
-        NSString *html = [web stringByEvaluatingJavaScriptFromString: @"document.body.innerHTML"];
+        float imageWidth = 200.0f;
+        float imageHeight = 150.0f;
+        float viewWidth = 200.0f;
+        float viewHeight = 200.0f;
+        float padding = 20.0f;
         
-        if((irep = [iRepPresentation iRepPresentationWithDirectoryListing:html url:[web.request URL]]))
+        NSLog(@"Found %i slides", [[irep slides] count]);
+        for(NSMutableDictionary *slide in irep.slides)
         {
-            int i = 0;
+            UIView *slideView = [[UIView alloc] initWithFrame:CGRectMake(viewWidth * i + padding * i + padding / 2, 10.0f, viewWidth, viewHeight)];
             
-            float imageWidth = 200.0f;
-            float imageHeight = 150.0f;
-            float viewWidth = 200.0f;
-            float viewHeight = 200.0f;
-            float padding = 20.0f;
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, imageWidth, imageHeight)];
+            NSData *imageData = [NSData dataWithContentsOfURL:[slide objectForKey:@"url_thumbnail"]];
+            imageView.image = [UIImage imageWithData:imageData];
+            [slideView addSubview:imageView];
             
-            NSLog(@"Found %i slides", [[irep slides] count]);
-            for(NSMutableDictionary *slide in irep.slides)
-            {
-                UIView *slideView = [[UIView alloc] initWithFrame:CGRectMake(viewWidth * i + padding * i + padding / 2, 10.0f, viewWidth, viewHeight)];
-                
-                UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, imageWidth, imageHeight)];
-                NSData *imageData = [NSData dataWithContentsOfURL:[slide objectForKey:@"url_thumbnail"]];
-                imageView.image = [UIImage imageWithData:imageData];
-                [slideView addSubview:imageView];
-                
-                UILabel *slideLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 155.0f, viewWidth - 20.0f, 20.0f)];
-                [slideLabel setBackgroundColor:[UIColor clearColor]];
-                [slideLabel setTextColor:[UIColor whiteColor]];
-                [slideLabel setTextAlignment:NSTextAlignmentCenter];
-                [slideLabel setFont:[UIFont systemFontOfSize:12.0f]];
-                
-                [slideLabel setText:[slide objectForKey:@"name"]];
-                [slideView addSubview:slideLabel];
-                
-                UIButton *slideButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, viewWidth, viewHeight)];
-                [slideButton addTarget:self action:@selector(slideSelected:) forControlEvents:UIControlEventTouchUpInside];
-                slideButton.tag = i;
-                [slideView addSubview:slideButton];
-                
-                [viewSlideScroll addSubview:slideView];
-                viewSlideScroll.contentSize = CGSizeMake(viewWidth * i + padding * i + viewWidth + padding/2, 200);
-                i++;
-            }
+            UILabel *slideLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 155.0f, viewWidth - 20.0f, 20.0f)];
+            [slideLabel setBackgroundColor:[UIColor clearColor]];
+            [slideLabel setTextColor:[UIColor whiteColor]];
+            [slideLabel setTextAlignment:NSTextAlignmentCenter];
+            [slideLabel setFont:[UIFont systemFontOfSize:12.0f]];
             
-            [self showFilmStrip];
+            [slideLabel setText:[slide objectForKey:@"name"]];
+            [slideView addSubview:slideLabel];
+            
+            UIButton *slideButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, viewWidth, viewHeight)];
+            [slideButton addTarget:self action:@selector(slideSelected:) forControlEvents:UIControlEventTouchUpInside];
+            slideButton.tag = i;
+            [slideView addSubview:slideButton];
+            
+            [viewSlideScroll addSubview:slideView];
+            viewSlideScroll.contentSize = CGSizeMake(viewWidth * i + padding * i + viewWidth + padding/2, 200);
+            i++;
         }
+        
+        [self showFilmStrip];
     }
 }
 
@@ -143,11 +153,13 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
 
 - (IBAction)buttonActionTouched:(id)sender
 {
+    NSString *gestureInfo = shouldEatGestures ? @"Eat Gestures: ON" : @"Eat Gestures: OFF";
+    
     UIActionSheet *popupSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                             delegate:self
                                                    cancelButtonTitle:nil
                                               destructiveButtonTitle:nil
-                                                   otherButtonTitles:@"Refresh Page", @"Server Settings", nil];
+                                                   otherButtonTitles:@"Refresh Page", gestureInfo, @"Server Settings", nil];
     
     popupSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     
@@ -165,6 +177,11 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
             break;
             
         case 1:
+            shouldEatGestures = !shouldEatGestures;
+            // TODO: Show HUD status
+            break;
+            
+        case 2:
             [self showServerModal];
             break;
     }
@@ -206,6 +223,7 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
     
     if(saveValueAndReload)
     {
+//        if([self.textServer.text rangeOfString:@"http://"] != NSNotFound && )
         [ABUtilities setUserDefaultByKey:KEY_PREFS_SERVER withValue:self.textServer.text];
         [self navigateToServerPreference];
     }

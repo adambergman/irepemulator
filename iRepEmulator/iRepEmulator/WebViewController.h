@@ -31,6 +31,7 @@
 @property (nonatomic) IBOutlet UIScrollView *viewSlideScroll;
 
 @property (nonatomic) iRepPresentation *irep;
+@property (nonatomic) BOOL shouldEatGestures;
 
 
 - (IBAction)buttonTriangleTouched:(id)sender;
