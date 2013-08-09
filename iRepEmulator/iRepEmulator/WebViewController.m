@@ -18,13 +18,14 @@
 
 static NSString *KEY_PREFS_SERVER = @"server_preference";
 
-@synthesize web, buttonAction, buttonBack, buttonForward, buttonServerCancel, buttonServerOkay, buttonTriangle, textServer, viewModal, irep, viewServer, viewSlides, viewSlideScroll, imageTriangle, shouldEatGestures;
+@synthesize web, buttonAction, buttonBack, buttonForward, buttonServerCancel, buttonServerOkay, buttonTriangle, textServer, viewModal, irep, viewServer, viewSlides, viewSlideScroll, imageTriangle, shouldEatGestures, slideIndex, panStartLocation;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        self.shouldEatGestures = FALSE;
+        slideIndex = 0;
     }
     return self;
 }
@@ -59,7 +60,7 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
 
 - (void)buildFilmstrip
 {
-    // TODO: Display indicator
+    // TODO: Display HUD indicator
     
     // TODO: This method could be separated out so that initializing the "irep" variable
     // and the parsing happens in another function which will then make the call to build the filmstrip
@@ -82,11 +83,11 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
         float viewHeight = 200.0f;
         float padding = 20.0f;
         
-        NSLog(@"Found %i slides", [[irep slides] count]);
         for(NSMutableDictionary *slide in irep.slides)
         {
             UIView *slideView = [[UIView alloc] initWithFrame:CGRectMake(viewWidth * i + padding * i + padding / 2, 10.0f, viewWidth, viewHeight)];
             
+            // TODO: If image doesn't exist a default image should be loaded
             UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, imageWidth, imageHeight)];
             NSData *imageData = [NSData dataWithContentsOfURL:[slide objectForKey:@"url_thumbnail"]];
             imageView.image = [UIImage imageWithData:imageData];
@@ -112,6 +113,22 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
         }
         
         [self showFilmStrip];
+        
+        // TODO: Show HUD confirmation
+    }
+}
+
+- (void)gotoCurrentSlideIndex
+{
+    if(slideIndex < 0){ slideIndex = 0; return; }
+    if(slideIndex >= irep.slides.count){ slideIndex = irep.slides.count - 1; return; }
+        
+    NSDictionary *slide = [irep.slides objectAtIndex:self.slideIndex];
+    if(slide)
+    {
+        // TODO: Verify that key exists before using the URL
+        [web loadRequest:[NSURLRequest requestWithURL:[slide objectForKey:@"url_html"]]];
+        [self hideFilmStrip];
     }
 }
 
@@ -120,13 +137,8 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
     if([sender isKindOfClass:[UIButton class]])
     {
         UIButton *senderButton = (UIButton *)sender;
-        NSDictionary *slide = [irep.slides objectAtIndex:senderButton.tag];
-        if(slide)
-        {
-            // TODO: Verify that key exists before using the URL
-            [web loadRequest:[NSURLRequest requestWithURL:[slide objectForKey:@"url_html"]]];
-            [self hideFilmStrip];
-        }
+        self.slideIndex = senderButton.tag;
+        [self gotoCurrentSlideIndex];
     }
 }
 
@@ -153,7 +165,7 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
 
 - (IBAction)buttonActionTouched:(id)sender
 {
-    NSString *gestureInfo = shouldEatGestures ? @"Eat Gestures: ON" : @"Eat Gestures: OFF";
+    NSString *gestureInfo = shouldEatGestures ? @"Swipe Navigation: ON" : @"Swipe Navigation: OFF";
     
     UIActionSheet *popupSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                             delegate:self
@@ -178,7 +190,7 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
             
         case 1:
             shouldEatGestures = !shouldEatGestures;
-            // TODO: Show HUD status
+            // TODO: Show HUD confirmation
             break;
             
         case 2:
@@ -223,7 +235,11 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
     
     if(saveValueAndReload)
     {
-//        if([self.textServer.text rangeOfString:@"http://"] != NSNotFound && )
+        if([self.textServer.text rangeOfString:@"http://"].location == NSNotFound &&
+           [self.textServer.text rangeOfString:@"https://"].location == NSNotFound)
+        {
+            self.textServer.text = [NSString stringWithFormat:@"http://%@", self.textServer.text];
+        }
         [ABUtilities setUserDefaultByKey:KEY_PREFS_SERVER withValue:self.textServer.text];
         [self navigateToServerPreference];
     }
@@ -254,10 +270,9 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
     
     CGAffineTransform transform = CGAffineTransformMakeTranslation(0, -1 * CGRectGetHeight(viewSlides.frame));
     transform = CGAffineTransformRotate(transform, 180.0f * M_PI/180);
+    
     self.imageTriangle.transform = transform;
-    
-    buttonTriangle.frame = CGRectMake(CGRectGetMinX(buttonTriangle.frame), CGRectGetMinY(buttonTriangle.frame) - CGRectGetHeight(viewSlides.frame), CGRectGetWidth(buttonTriangle.frame), CGRectGetHeight(buttonTriangle.frame));
-    
+    self.buttonTriangle.transform = transform;
 }
 
 - (void)hideFilmStrip
@@ -269,8 +284,71 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
     
     self.imageTriangle.transform = CGAffineTransformIdentity;
     
-    buttonTriangle.frame = CGRectMake(CGRectGetMinX(buttonTriangle.frame), CGRectGetMinY(buttonTriangle.frame) + CGRectGetHeight(viewSlides.frame), CGRectGetWidth(buttonTriangle.frame), CGRectGetHeight(buttonTriangle.frame));
+    self.buttonTriangle.transform = CGAffineTransformIdentity;    
+}
+
+- (void)swipeMethod:(UISwipeGestureRecognizer *)gestureRecognizer
+{
+    NSLog(@"Swiped.");
     
+    if(gestureRecognizer.direction == UISwipeGestureRecognizerDirectionLeft)
+    {
+        slideIndex++;
+    }
+    
+    if(gestureRecognizer.direction == UISwipeGestureRecognizerDirectionLeft)
+    {
+        slideIndex--;
+    }
+    
+    [self gotoCurrentSlideIndex];
+}
+
+
+- (void)panGesture:(UIPanGestureRecognizer *)sender
+{
+    if(!shouldEatGestures){ return; }
+    
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        panStartLocation = [sender locationInView:self.view];
+    }
+    else if (sender.state == UIGestureRecognizerStateEnded) {
+        CGPoint stopLocation = [sender locationInView:self.view];
+        CGFloat dx = stopLocation.x - panStartLocation.x;
+        CGFloat dy = stopLocation.y - panStartLocation.y;
+        CGFloat distance = sqrt(dx*dx + dy*dy );
+        NSLog(@"Distance: %f", distance);
+        
+        if(distance > 500)
+        {
+            float yTolerence = fabsf(panStartLocation.y - stopLocation.y);
+            //NSLog(@"yTolerence = %f", yTolerence);
+            if(yTolerence > 40.0f)
+            {
+                return;
+            }
+            if(panStartLocation.x > stopLocation.x)
+            {
+                // right to left
+                slideIndex++;
+            }else{
+                // left to right
+                slideIndex--;
+            }
+            [self gotoCurrentSlideIndex];
+        }
+    }
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
+    return YES;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
+    return YES;
+}
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
+    return YES;
 }
 
 - (void)viewDidLoad
@@ -280,6 +358,10 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
     
     // Goto the default page
     [self navigateToServerPreference];
+    
+    UIPanGestureRecognizer *panGestureRec = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGesture:)];
+    panGestureRec.delegate = self;
+    [[self web] addGestureRecognizer:panGestureRec];
 }
 
 - (void)didReceiveMemoryWarning

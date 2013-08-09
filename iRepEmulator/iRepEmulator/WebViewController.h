@@ -10,7 +10,7 @@
 
 @class iRepPresentation;
 
-@interface WebViewController : UIViewController <UIActionSheetDelegate, UITextFieldDelegate, UIWebViewDelegate, UIAlertViewDelegate>
+@interface WebViewController : UIViewController <UIActionSheetDelegate, UITextFieldDelegate, UIWebViewDelegate, UIAlertViewDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic) IBOutlet UIWebView *web;
 
@@ -32,6 +32,8 @@
 
 @property (nonatomic) iRepPresentation *irep;
 @property (nonatomic) BOOL shouldEatGestures;
+@property (nonatomic) int slideIndex;
+@property (nonatomic) CGPoint panStartLocation;
 
 
 - (IBAction)buttonTriangleTouched:(id)sender;
