@@ -294,6 +294,9 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
     self.buttonTriangle.transform = CGAffineTransformIdentity;    
 }
 
+// Swipe Gesture Recognition
+// Actually uses the pan gesture so distance of the swipe can be controlled
+
 - (void)panGesture:(UIPanGestureRecognizer *)sender
 {
     if(!shouldEatGestures){ return; }
@@ -329,6 +332,9 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
     }
 }
 
+// UIGestureRecognizerDelegate methods
+// This is done so that our view recieves touch events that the UIWebView consumes
+
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
     return YES;
 }
@@ -340,14 +346,16 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
     return YES;
 }
 
+// View Stuff
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
     
     // Goto the default page
     [self navigateToServerPreference];
     
+    // Setup Gesture Recognizer for swipe handling
     UIPanGestureRecognizer *panGestureRec = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGesture:)];
     panGestureRec.delegate = self;
     [[self web] addGestureRecognizer:panGestureRec];
