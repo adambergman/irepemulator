@@ -9,6 +9,7 @@
 #import "WebViewController.h"
 #import "ABUtilities.h"
 #import "iRepPresentation.h"
+#import "SVProgressHUD.h"
 
 @interface WebViewController ()
 
@@ -60,7 +61,7 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
 
 - (void)buildFilmstrip
 {
-    // TODO: Display HUD indicator
+    [SVProgressHUD show];
     
     // TODO: This method could be separated out so that initializing the "irep" variable
     // and the parsing happens in another function which will then make the call to build the filmstrip
@@ -117,7 +118,7 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
         
         [self showFilmStrip];
         
-        // TODO: Show HUD confirmation
+        [SVProgressHUD showSuccessWithStatus:@"Success"];
     }
 }
 
@@ -192,9 +193,12 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
             break;
             
         case 1:
+        {
             shouldEatGestures = !shouldEatGestures;
-            // TODO: Show HUD confirmation
+            NSString *statusString = [NSString stringWithFormat:@"Swipe Navigation %@", shouldEatGestures ? @"ON" : @"OFF"];
+            [SVProgressHUD showSuccessWithStatus:statusString];
             break;
+        }
             
         case 2:
             [self showServerModal];
@@ -290,24 +294,6 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
     self.buttonTriangle.transform = CGAffineTransformIdentity;    
 }
 
-- (void)swipeMethod:(UISwipeGestureRecognizer *)gestureRecognizer
-{
-    NSLog(@"Swiped.");
-    
-    if(gestureRecognizer.direction == UISwipeGestureRecognizerDirectionLeft)
-    {
-        slideIndex++;
-    }
-    
-    if(gestureRecognizer.direction == UISwipeGestureRecognizerDirectionLeft)
-    {
-        slideIndex--;
-    }
-    
-    [self gotoCurrentSlideIndex];
-}
-
-
 - (void)panGesture:(UIPanGestureRecognizer *)sender
 {
     if(!shouldEatGestures){ return; }
@@ -320,7 +306,7 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
         CGFloat dx = stopLocation.x - panStartLocation.x;
         CGFloat dy = stopLocation.y - panStartLocation.y;
         CGFloat distance = sqrt(dx*dx + dy*dy );
-        NSLog(@"Distance: %f", distance);
+        //NSLog(@"Distance: %f", distance);
         
         if(distance > 500)
         {
