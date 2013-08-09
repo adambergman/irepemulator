@@ -118,7 +118,7 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
         
         [self showFilmStrip];
         
-        [SVProgressHUD showSuccessWithStatus:@"Success"];
+        [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"Found %i Key Messages", irep.slides.count]];
     }
 }
 
@@ -182,6 +182,12 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
     [popupSheet showFromRect:buttonAction.bounds inView:self.view animated:YES];
 }
 
+- (IBAction)modalViewTapped:(id)sender
+{
+    [self hideFilmStrip];
+    [self hideServerModal];
+}
+
 // UIActionSheetDelegate method
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -226,19 +232,28 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
 
 - (void)showServerModal
 {
-    // TODO: Animate
-    
     self.textServer.text = [ABUtilities getUserDefaultWithKey:KEY_PREFS_SERVER];
-    [self.textServer becomeFirstResponder];
+        
+    // Setup
+    CGAffineTransform windowTransform = CGAffineTransformMakeTranslation(0, -1000.0f);
+    viewServer.transform = windowTransform;
+    viewModal.alpha = 0.0f;
     viewModal.hidden = FALSE;
     viewServer.hidden = FALSE;
     imageTriangle.hidden = TRUE;
     buttonTriangle.hidden = TRUE;
+    [self.textServer becomeFirstResponder];
+    
+    [UIView animateWithDuration:0.5f animations:^{
+        viewServer.transform = CGAffineTransformIdentity;
+        viewModal.alpha = 1.0f;
+    } completion:^(BOOL finished) {
+    }];
 }
 
 - (void)hideServerModal:(BOOL)saveValueAndReload
 {
-    // TODO: Animate
+    if(viewServer.hidden){ return; }
     
     if(saveValueAndReload)
     {
@@ -251,10 +266,19 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
         [self navigateToServerPreference];
     }
     [self.textServer resignFirstResponder];
-    viewModal.hidden = TRUE;
-    viewServer.hidden = TRUE;
-    imageTriangle.hidden = FALSE;
-    buttonTriangle.hidden = FALSE;
+    
+    [UIView animateWithDuration:0.5f animations:^{
+        CGAffineTransform windowTransform = CGAffineTransformMakeTranslation(0, -800.0f);
+        viewServer.transform = windowTransform;
+        viewModal.alpha = 0.0f;
+    } completion:^(BOOL finished) {
+        viewModal.hidden = TRUE;
+        viewServer.hidden = TRUE;
+        imageTriangle.hidden = FALSE;
+        buttonTriangle.hidden = FALSE;
+        viewServer.transform = CGAffineTransformIdentity;
+        viewModal.alpha = 1.0f;
+    }];
 }
 
 - (void)hideServerModal
@@ -270,28 +294,41 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
 
 - (void)showFilmStrip
 {
-    // TODO: Animate
+    // Setup
+    CGAffineTransform viewTransform = CGAffineTransformMakeTranslation(0, CGRectGetHeight(viewSlides.frame));
+    viewSlides.transform = viewTransform;
+    viewModal.alpha = 0.0f;
     
     viewModal.hidden = FALSE;
     viewSlides.hidden = FALSE;
     
     CGAffineTransform transform = CGAffineTransformMakeTranslation(0, -1 * CGRectGetHeight(viewSlides.frame));
-    transform = CGAffineTransformRotate(transform, 180.0f * M_PI/180);
+    transform = CGAffineTransformRotate(transform, -60.0f * M_PI/180);
     
-    self.imageTriangle.transform = transform;
-    self.buttonTriangle.transform = transform;
+    [UIView animateWithDuration:0.5f animations:^{
+        self.imageTriangle.transform = transform;
+        self.buttonTriangle.transform = transform;
+        self.viewSlides.transform = CGAffineTransformIdentity;
+        viewModal.alpha = 1.0f;
+    }];
 }
 
 - (void)hideFilmStrip
 {
-    // TODO: Animate
+    if(viewSlides.hidden){ return; }
     
-    viewModal.hidden = TRUE;
-    viewSlides.hidden = TRUE;
-    
-    self.imageTriangle.transform = CGAffineTransformIdentity;
-    
-    self.buttonTriangle.transform = CGAffineTransformIdentity;    
+    CGAffineTransform viewTransform = CGAffineTransformMakeTranslation(0, CGRectGetHeight(viewSlides.frame));   
+    [UIView animateWithDuration:0.5f animations:^{
+        viewModal.alpha = 0.0f;
+        self.imageTriangle.transform = CGAffineTransformIdentity;
+        self.buttonTriangle.transform = CGAffineTransformIdentity;
+        viewSlides.transform = viewTransform;
+    } completion:^(BOOL finished) {
+        viewModal.hidden = TRUE;
+        viewSlides.hidden = TRUE;
+        self.viewSlides.transform = CGAffineTransformIdentity;
+        viewModal.alpha = 1.0f;
+    }];
 }
 
 // Swipe Gesture Recognition

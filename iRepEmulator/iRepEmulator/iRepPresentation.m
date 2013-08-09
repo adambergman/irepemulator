@@ -38,7 +38,7 @@
             if(count == 0 && [iRepPresentation hasParentDirectoryInListing:html])
             {
                 // Skip Parent directory
-                NSLog(@"Skipping parent directory link... %@", match);
+                // NSLog(@"Skipping parent directory link... %@", match);
             }else{
                 // Found directory, assume it's a Veeva slide
                 // TODO: match HTML and thumb file to check if this is actually a slide
@@ -68,7 +68,7 @@
                 [slide setObject:matchName forKey:@"name"];
                 
                 //NSLog(@"%@ => %@", matchParse, matchName);
-                NSLog(@"%@", [slide objectForKey:@"url_html"]);
+                //NSLog(@"%@", [slide objectForKey:@"url_html"]);
                 
                 // Add slide to collection
                 [temp.slides addObject:slide];
