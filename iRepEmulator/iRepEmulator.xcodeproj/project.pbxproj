@@ -22,6 +22,7 @@
 		1D0518E717A194AD00335BC8 /* veeva_controls_bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D0518E517A194AD00335BC8 /* veeva_controls_bottom.png */; };
 		1D0518E817A194AD00335BC8 /* veeva_controls_top.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D0518E617A194AD00335BC8 /* veeva_controls_top.png */; };
 		1D0518EB17A2B44300335BC8 /* ABUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0518EA17A2B44300335BC8 /* ABUtilities.m */; };
+		1D0E206817B534D1003910BC /* default_thumbnail.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D0E206717B534D1003910BC /* default_thumbnail.png */; };
 		1D4EB88017B16A9E000EAB65 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4EB87F17B16A9E000EAB65 /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1D4EB88217B16C1D000EAB65 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D4EB88117B16C1D000EAB65 /* libicucore.dylib */; };
 		1D4EB88617B17AD6000EAB65 /* iRepPresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4EB88517B17AD6000EAB65 /* iRepPresentation.m */; };
@@ -49,6 +50,7 @@
 		1D0518E617A194AD00335BC8 /* veeva_controls_top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = veeva_controls_top.png; path = artwork/veeva_controls_top.png; sourceTree = "<group>"; };
 		1D0518E917A2B44300335BC8 /* ABUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABUtilities.h; sourceTree = "<group>"; };
 		1D0518EA17A2B44300335BC8 /* ABUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABUtilities.m; sourceTree = "<group>"; };
+		1D0E206717B534D1003910BC /* default_thumbnail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = default_thumbnail.png; path = artwork/default_thumbnail.png; sourceTree = "<group>"; };
 		1D4EB87E17B16A9E000EAB65 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		1D4EB87F17B16A9E000EAB65 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		1D4EB88117B16C1D000EAB65 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
@@ -133,6 +135,7 @@
 		1D0518E417A193F800335BC8 /* artwork */ = {
 			isa = PBXGroup;
 			children = (
+				1D0E206717B534D1003910BC /* default_thumbnail.png */,
 				1D0518E517A194AD00335BC8 /* veeva_controls_bottom.png */,
 				1D0518E617A194AD00335BC8 /* veeva_controls_top.png */,
 			);
@@ -218,6 +221,7 @@
 				1D0518E317A18E5700335BC8 /* Settings.bundle in Resources */,
 				1D0518E717A194AD00335BC8 /* veeva_controls_bottom.png in Resources */,
 				1D0518E817A194AD00335BC8 /* veeva_controls_top.png in Resources */,
+				1D0E206817B534D1003910BC /* default_thumbnail.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

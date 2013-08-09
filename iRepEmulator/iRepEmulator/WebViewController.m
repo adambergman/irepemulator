@@ -87,10 +87,13 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
         {
             UIView *slideView = [[UIView alloc] initWithFrame:CGRectMake(viewWidth * i + padding * i + padding / 2, 10.0f, viewWidth, viewHeight)];
             
-            // TODO: If image doesn't exist a default image should be loaded
             UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, imageWidth, imageHeight)];
             NSData *imageData = [NSData dataWithContentsOfURL:[slide objectForKey:@"url_thumbnail"]];
             imageView.image = [UIImage imageWithData:imageData];
+            if(imageView.image == nil)
+            {
+                imageView.image = [UIImage imageNamed:@"default_thumbnail"];
+            }
             [slideView addSubview:imageView];
             
             UILabel *slideLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 155.0f, viewWidth - 20.0f, 20.0f)];
