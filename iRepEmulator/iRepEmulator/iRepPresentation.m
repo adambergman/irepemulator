@@ -8,6 +8,7 @@
 
 #import "iRepPresentation.h"
 #import "lib/RegexKitLite.h"
+#import "NSString+URLDecode.h"
 
 @implementation iRepPresentation
 
@@ -48,7 +49,7 @@
                 // Remove href=" from beginning and /" from the end
                 NSString *matchParse = [match stringByReplacingOccurrencesOfRegex:@"href=[\"']" withString:@""];
                 matchParse = [matchParse stringByReplacingOccurrencesOfRegex:@"/[\"']" withString:@""];
-                matchParse = [iRepPresentation stringByDecodingURLFormat:matchParse];
+                matchParse = [matchParse stringByDecodingURLFormat];
                 
                 // Save url encoded folder for look ups later, get HTML, thumbnail, and image file paths
                 NSURL *folderUrl = [url URLByAppendingPathComponent:matchParse];
@@ -57,7 +58,7 @@
                 NSURL *imageUrl = [folderUrl URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", matchParse]];
                 
                 // URL decode the directory so it can be used as the name
-                NSString *matchName = [iRepPresentation stringByDecodingURLFormat:matchParse];
+                NSString *matchName = [matchParse stringByDecodingURLFormat];
                 
                 // Set objects in slide dictionary
                 [slide setObject:matchParse forKey:@"folder"];
@@ -106,15 +107,6 @@
         return FALSE;
     }
     return TRUE;
-}
-
-+ (NSString *)stringByDecodingURLFormat:(NSString *)string
-{
-    // TODO: Convert this to category on NSString
-    
-    NSString *result = [(NSString *)string stringByReplacingOccurrencesOfString:@"+" withString:@" "];
-    result = [result stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    return result;
 }
 
 @end
