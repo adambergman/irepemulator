@@ -10,6 +10,7 @@
 #import "ABUtilities.h"
 #import "iRepPresentation.h"
 #import "SVProgressHUD.h"
+#import "NSString+URLDecode.h"
 
 @interface WebViewController ()
 
@@ -17,9 +18,14 @@
 
 @implementation WebViewController
 
+// Name of key for server preference in settings bundle
 static NSString *KEY_PREFS_SERVER = @"server_preference";
 
-@synthesize web, buttonAction, buttonBack, buttonForward, buttonServerCancel, buttonServerOkay, buttonTriangle, textServer, viewModal, irep, viewServer, viewSlides, viewSlideScroll, imageTriangle, shouldEatGestures, slideIndex, panStartLocation;
+@synthesize web;
+@synthesize buttonAction, buttonBack, buttonForward, buttonTriangle, imageTriangle;
+@synthesize buttonServerCancel, buttonServerOkay, textServer, viewModal, viewServer, viewSlides, viewSlideScroll;
+@synthesize irep,  slideIndex;
+@synthesize shouldEatGestures, panStartLocation;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -43,14 +49,53 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
     
     if([iRepPresentation isDirectoryListing:html])
     {
-        // TODO: At this point the user should probably be prompted to ask
-        // whether or not this directory listing should be parsed as an iRep presentaiton
+        // Prompt user to see if they want to parse the directory structure
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Directory Listing Detected" message:@"This page appears to be a directory listing. Do you wish to parse it as if folders are iRep Key Messages?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Parse", nil];
         [alert show];
     }
 }
 
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    NSString *requestString = [[request URL] absoluteString];
+    NSArray *components = [requestString componentsSeparatedByString:@":"];
+	
+    if([components count] > 1 && ([[(NSString *)[components objectAtIndex:0] lowercaseString] isEqualToString:@"veeva"]))
+	{
+        // gotoSlide Command Parsing
+        // TODO: This should probably be moved to a separate function
+        NSString *command = (NSString *)[components objectAtIndex:1];
+        if([command rangeOfString:@"gotoSlide(.*?)" options:NSRegularExpressionSearch].location != NSNotFound)
+        {
+            NSString *file = [command stringByReplacingOccurrencesOfString:@"gotoSlide(" withString:@""];
+            file = [file stringByReplacingOccurrencesOfString:@".zip)" withString:@""];
+            file = [file stringByDecodingURLFormat];
+            NSLog(@"File is: %@", file);
+            int gotoIndex = 0;
+            for(NSDictionary *slide in irep.slides)
+            {
+                if(![slide objectForKey:@"name"]){ continue; }
+                if([file isEqualToString:[slide objectForKey:@"name"]])
+                {
+                    [SVProgressHUD showSuccessWithStatus:[command stringByDecodingURLFormat]];
+                    self.slideIndex = gotoIndex;
+                    [self gotoCurrentSlideIndex];
+                    return FALSE;
+                }
+                gotoIndex++;
+            }
+        }
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Veeva URL Detected" message:requestString delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+        [alert show];
+        return FALSE;
+    }
+    
+    return TRUE;
+}
+
+// Delegate Method for Directory Structure Parsing UIAlertView 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if(buttonIndex == 1)
@@ -130,9 +175,11 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
     NSDictionary *slide = [irep.slides objectAtIndex:self.slideIndex];
     if(slide)
     {
-        // TODO: Verify that key exists before using the URL
-        [web loadRequest:[NSURLRequest requestWithURL:[slide objectForKey:@"url_html"]]];
-        [self hideFilmStrip];
+        if([slide objectForKey:@"url_html"])
+        {
+            [web loadRequest:[NSURLRequest requestWithURL:[slide objectForKey:@"url_html"]]];
+            [self hideFilmStrip];
+        }
     }
 }
 

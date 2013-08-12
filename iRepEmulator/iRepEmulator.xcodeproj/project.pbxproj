@@ -29,6 +29,7 @@
 		1D4EB88017B16A9E000EAB65 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4EB87F17B16A9E000EAB65 /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1D4EB88217B16C1D000EAB65 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D4EB88117B16C1D000EAB65 /* libicucore.dylib */; };
 		1D4EB88617B17AD6000EAB65 /* iRepPresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4EB88517B17AD6000EAB65 /* iRepPresentation.m */; };
+		1D6399D217B90F2900739558 /* NSString+URLDecode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6399D117B90F2900739558 /* NSString+URLDecode.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +64,8 @@
 		1D4EB88117B16C1D000EAB65 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		1D4EB88417B17AD6000EAB65 /* iRepPresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRepPresentation.h; sourceTree = "<group>"; };
 		1D4EB88517B17AD6000EAB65 /* iRepPresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRepPresentation.m; sourceTree = "<group>"; };
+		1D6399D017B90F2900739558 /* NSString+URLDecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URLDecode.h"; sourceTree = "<group>"; };
+		1D6399D117B90F2900739558 /* NSString+URLDecode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URLDecode.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +173,8 @@
 				1D0518EA17A2B44300335BC8 /* ABUtilities.m */,
 				1D4EB88417B17AD6000EAB65 /* iRepPresentation.h */,
 				1D4EB88517B17AD6000EAB65 /* iRepPresentation.m */,
+				1D6399D017B90F2900739558 /* NSString+URLDecode.h */,
+				1D6399D117B90F2900739558 /* NSString+URLDecode.m */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -252,6 +257,7 @@
 				1D4EB88017B16A9E000EAB65 /* RegexKitLite.m in Sources */,
 				1D4EB88617B17AD6000EAB65 /* iRepPresentation.m in Sources */,
 				1D0E206D17B5363A003910BC /* SVProgressHUD.m in Sources */,
+				1D6399D217B90F2900739558 /* NSString+URLDecode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
