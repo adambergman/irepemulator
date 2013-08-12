@@ -51,6 +51,21 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
     }
 }
 
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    NSString *requestString = [[request URL] absoluteString];
+    NSArray *components = [requestString componentsSeparatedByString:@":"];
+	
+    if([components count] > 1 && ([[(NSString *)[components objectAtIndex:0] lowercaseString] isEqualToString:@"veeva"]))
+	{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Veeva URL Detected" message:requestString delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+        [alert show];
+        return FALSE;
+    }
+    
+    return TRUE;
+}
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if(buttonIndex == 1)
