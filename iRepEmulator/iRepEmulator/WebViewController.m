@@ -37,6 +37,11 @@ static NSString *KEY_PREFS_SERVER = @"server_preference";
     return self;
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 // UIWebViewDelegate Methods
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
