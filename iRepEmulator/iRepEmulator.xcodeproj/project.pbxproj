@@ -207,11 +207,6 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Adam Bergman";
-				TargetAttributes = {
-					1D0518BC17A16FE400335BC8 = {
-						DevelopmentTeam = 387SMS9Y55;
-					};
-				};
 			};
 			buildConfigurationList = 1D0518B817A16FE400335BC8 /* Build configuration list for PBXProject "iRepEmulator" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -348,7 +343,7 @@
 				INFOPLIST_FILE = "iRepEmulator/iRepEmulator-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4B24E252-AFB2-4C57-885E-6E1B5E432189";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -356,14 +351,14 @@
 		1D0518DC17A16FE400335BC8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iRepEmulator/iRepEmulator-Prefix.pch";
 				INFOPLIST_FILE = "iRepEmulator/iRepEmulator-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4B24E252-AFB2-4C57-885E-6E1B5E432189";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
