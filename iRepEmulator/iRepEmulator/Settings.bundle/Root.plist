@@ -16,7 +16,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>http://staging-101.bluediesel.com</string>
+			<string>http://</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>Key</key>
