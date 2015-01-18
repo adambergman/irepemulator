@@ -75,6 +75,6 @@ This tool uses [Sam Vermette](https://github.com/samvermette)'s
 [SVProgressHUD](https://github.com/samvermette/SVProgressHUD), 
 [RegexKitLite](http://regexkit.sourceforge.net), and 
 [Joseph Wain's Glyphish Icons](http://www.glyphish.com).  Please consult their 
-respective license agreements for usage and terms of ths of their individual 
+respective license agreements for usage and terms of their individual 
 licenses.
 
